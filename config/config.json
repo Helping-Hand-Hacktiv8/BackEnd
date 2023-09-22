@@ -4,8 +4,7 @@
     "password": "postgres",
     "database": "Helping-Hand",
     "host": "localhost",
-    "dialect": "postgres",
-    "port": 5433
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
