@@ -1,3 +1,5 @@
+const { comparePassword } = require('../helpers/bcrypt')
+const { signToken } = require('../helpers/jwt')
 const { User } = require('../models')
 
 class UserController {
@@ -5,6 +7,7 @@ class UserController {
         try {
             const { name, password, email } = req.body
 
+            if (!name || !password || !email) throw ({ name: "cannotEmpty" })
 
             await User.create({
                 name, email, password, token: 0
@@ -18,9 +21,22 @@ class UserController {
 
     static async login(req, res, next) {
         try {
-            const input = req.body
+            const { email, password } = req.body
+            if (!email || !password) throw ({ name: "cannotEmpty" })
 
-            res.status(200).json(input)
+            let user = await User.findOne({
+                where: {
+                    email
+                }
+            })
+            if (!user) throw ({ name: "EmailPasswordInvalid" })
+
+            const isValid = comparePassword(password, user.password)
+            if (!isValid) throw ({ name: "EmailPasswordInvalid" })
+
+            const token = signToken({ id: user.id, email: email })
+
+            res.status(200).json({ access_token: token, dataUser: user })
         } catch (error) {
             next(error)
         }
@@ -30,7 +46,11 @@ class UserController {
         try {
             const { id } = req.params
 
-            let user = await User.findByPk(id)
+            let user = await User.findByPk(id, {
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            })
 
             res.status(200).json(user)
         } catch (error) {
@@ -40,11 +60,14 @@ class UserController {
 
     static async editUser(req, res, next) {
         try {
-            const input = req.body
+            const { name, email, profileImg, token, phoneNumber } = req.body
             const { id } = req.params
 
+            let user = await User.findByPk(id)
 
-            res.status(200).json({ input, id })
+            await user.update({ name, email, profileImg, token, phoneNumber })
+
+            res.status(200).json({ message: `Your profile has been successfully updated.` })
         } catch (error) {
             next(error)
         }
@@ -61,7 +84,7 @@ class UserController {
                 where: { id }
             })
 
-            res.status(200).json({ message: `User ${isUser.name} successfully deleted`})
+            res.status(200).json({ message: `User ${isUser.name} successfully deleted` })
         } catch (error) {
             next(error)
         }

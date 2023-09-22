@@ -39,6 +39,7 @@
             "reward": 5,
             "location": "none",
             "lat": 0,
+            "status": "Pending",
             "lon": 0,
             "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
         },
@@ -52,6 +53,7 @@
             "reward": 100,
             "location": "none",
             "lat": 0,
+            "status": "Done",
             "lon": 0,
             "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
         },
@@ -65,6 +67,7 @@
             "reward": 50,
             "location": "none",
             "lat": 0,
+            "status": "Pending",
             "lon": 0,
             "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
         }
@@ -120,21 +123,18 @@
             "id": 1,
             "UserId": 1,
             "ActivityId": 1,
-            "status": "Pending",
             "role": "Participant"
         },
         {
             "id": 2,
             "UserId": 1,
             "ActivityId": 2,
-            "status": "Done",
             "role": "Participant"
         },
         {
             "id": 3,
             "UserId": 2,
             "ActivityId": 3,
-            "status": "Pending",
             "role": "Participant"
         }
     ]
