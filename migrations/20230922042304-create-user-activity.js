@@ -25,9 +25,6 @@ module.exports = {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
-      status: {
-        type: Sequelize.STRING
-      },
       role: {
         type: Sequelize.STRING
       },

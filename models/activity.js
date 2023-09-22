@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     lat: DataTypes.FLOAT,
     lon: DataTypes.FLOAT,
-    photoAct: DataTypes.STRING
+    photoAct: DataTypes.STRING,
+    status: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Activity',

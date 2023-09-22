@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   UserActivity.init({
     UserId: DataTypes.INTEGER,
     ActivityId: DataTypes.INTEGER,
-    status: DataTypes.STRING,
     role: DataTypes.STRING
   }, {
     sequelize,
