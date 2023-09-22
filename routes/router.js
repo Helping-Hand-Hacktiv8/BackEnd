@@ -4,7 +4,9 @@ const userRouter = require('./userRouter')
 const activityRouter = require('./activityRouter')
 const router = express.Router()
 
-router.post('/register', Controller.postRegister )
+router.get('/register', (req, res) => {
+  res.send('Connection successfull!')
+})
 
 
 router.use('/users', userRouter)
