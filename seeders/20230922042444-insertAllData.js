@@ -9,6 +9,7 @@ module.exports = {
 
     let dataUser = data.Users
     dataUser.forEach(el => {
+      delete el.id
       el.password = hashPassword(el.password)
       el.createdAt = new Date()
       el.updatedAt = new Date()
@@ -17,6 +18,7 @@ module.exports = {
 
     let dataActivity = data.Activities
     dataActivity.forEach(el => {
+      delete el.id
       el.createdAt = new Date()
       el.updatedAt = new Date()
     })
@@ -24,6 +26,7 @@ module.exports = {
 
     let dataReward = data.Rewards
     dataReward.forEach(el => {
+      delete el.id
       el.createdAt = new Date()
       el.updatedAt = new Date()
     })
@@ -31,6 +34,7 @@ module.exports = {
 
     let dataUserReward = data.UserRewards
     dataUserReward.forEach(el => {
+      delete el.id
       el.createdAt = new Date()
       el.updatedAt = new Date()
     })
@@ -38,11 +42,11 @@ module.exports = {
 
     let dataUserActivity = data.UserActivites
     dataUserActivity.forEach(el => {
+      delete el.id
       el.createdAt = new Date()
       el.updatedAt = new Date()
     })
     await queryInterface.bulkInsert('UserActivities', dataUserActivity)
-
   },
 
   async down (queryInterface, Sequelize) {
