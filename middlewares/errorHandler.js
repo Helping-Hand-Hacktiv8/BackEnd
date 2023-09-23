@@ -41,6 +41,11 @@ function errorHandler(err, req, res, next) {
         case "AlreadyClaimed":
             status = 400
             message = "You already claimed this reward"
+            break;
+        case "Forbidden":
+            status = 403
+            message = "Access Forbidden"
+            break;
 
     }
 

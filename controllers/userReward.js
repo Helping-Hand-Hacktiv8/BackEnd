@@ -21,7 +21,7 @@ class UserRewardController {
                         },
                     }
                 ],
-                // where: { UserId: req.user.id } // ini gimana juga???
+                where: { UserId: req.user.id } 
             })
 
             res.status(200).json(userReward)
@@ -52,7 +52,7 @@ class UserRewardController {
                         },
                     }
                 ],
-                // where: { UserId: req.user.id } // ini gimana juga???
+                where: { UserId: req.user.id }
             })
 
             if (!userReward) throw ({ name: "NotFound" })

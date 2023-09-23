@@ -1,4 +1,4 @@
-const { Activity } = require("../models")
+const { Activity, UserActivity } = require("../models")
 
 class ActivityController {
     static async allActivity(req, res, next) {
@@ -21,7 +21,13 @@ class ActivityController {
             
             if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })
 
-            await Activity.create({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status})
+            const newActivity = await Activity.create({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status })
+            await UserActivity.create({
+                UserId: req.user.id,
+                ActivityId: newActivity.id,
+                Status: "Ongoing",
+                role: "Author"
+            })
 
             res.status(201).json({ message: "New activity successfully created!" })
         } catch (error) {
@@ -39,7 +45,7 @@ class ActivityController {
             const activity = await Activity.findByPk(id)
             if (!activity) throw ({ name: "NotFound" })
 
-            await Activity.update({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct},{where:{id:id}})
+            await Activity.update({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status},{where:{id:id}})
 
             res.status(200).json({ message: "Activity successfully updated" })
         } catch (error) {
