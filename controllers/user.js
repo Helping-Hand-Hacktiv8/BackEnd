@@ -52,6 +52,10 @@ class UserController {
                 }
             })
 
+            if(!user){
+                throw{name:"NotFound"}
+            }
+
             res.status(200).json(user)
         } catch (error) {
             next(error)
@@ -60,12 +64,11 @@ class UserController {
 
     static async editUser(req, res, next) {
         try {
-            const { name, email, profileImg, token, phoneNumber } = req.body
+            const { name, password, email, profileImg, token, phoneNumber } = req.body
+            if (!name || !password || !email) throw({name:'cannotEmpty'})
             const { id } = req.params
 
-            let user = await User.findByPk(id)
-
-            await user.update({ name, email, profileImg, token, phoneNumber })
+            await User.update({ name, email, profileImg, token, phoneNumber },{where:{id:id}})
 
             res.status(200).json({ message: `Your profile has been successfully updated.` })
         } catch (error) {
@@ -81,7 +84,7 @@ class UserController {
             if (!isUser) throw ({ name: "NotFound" })
 
             await User.destroy({
-                where: { id }
+                where: { id:id }
             })
 
             res.status(200).json({ message: `User ${isUser.name} successfully deleted` })

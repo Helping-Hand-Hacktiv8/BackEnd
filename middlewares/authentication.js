@@ -8,8 +8,9 @@ async function authentication(req, res, next) {
 
         const verified = verifyToken(access_token)
         if (!verified) throw ({ name: "AuthenticationError" })
-
+        
         const user = await User.findByPk(verified.id)
+        console.log('user>>',user)
         if (!user) throw ({ name: "AuthenticationError" })
 
         req.user = {

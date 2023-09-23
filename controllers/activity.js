@@ -17,11 +17,11 @@ class ActivityController {
 
     static async postActivity(req, res, next) {
         try {
-            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct } = req.body
+            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status } = req.body
+            
+            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })
 
-            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct) throw ({ name: "cannotEmpty" })
-
-            await Activity.create(name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct)
+            await Activity.create({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status})
 
             res.status(201).json({ message: "New activity successfully created!" })
         } catch (error) {
@@ -32,14 +32,14 @@ class ActivityController {
     static async updateActivity(req, res, next) {
         try {
             const { id } = req.params
-            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct } = req.body
+            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status } = req.body
             
-            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct) throw ({ name: "cannotEmpty" })
+            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })
 
-            const activity = Activity.findByPk(id)
+            const activity = await Activity.findByPk(id)
             if (!activity) throw ({ name: "NotFound" })
 
-            await activity.update(name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct)
+            await Activity.update({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct},{where:{id:id}})
 
             res.status(200).json({ message: "Activity successfully updated" })
         } catch (error) {
@@ -68,10 +68,10 @@ class ActivityController {
         try {
             const { id } = req.params
 
-            const activity = Activity.findByPk(id)
+            const activity = await Activity.findByPk(id)
             if (!activity) throw ({ name: "NotFound" })
 
-            await activity.destroy({ where: { id }})
+            await Activity.destroy({ where: { id }})
 
             res.status(200).json({ message: "Activity has been successfully deleted" })
         } catch (error) {

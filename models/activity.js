@@ -15,17 +15,148 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Activity.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    fromDate: DataTypes.DATE,
-    toDate: DataTypes.DATE,
-    participant: DataTypes.INTEGER,
-    reward: DataTypes.INTEGER,
-    location: DataTypes.STRING,
-    lat: DataTypes.FLOAT,
-    lon: DataTypes.FLOAT,
-    photoAct: DataTypes.STRING,
-    status: DataTypes.STRING,
+    name: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    description: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    fromDate: {
+      type:DataTypes.DATE,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        },
+        isDateGreaterThanToday(value){
+          if(new Date(value) <= new Date()){
+            throw new Error('From date must be above current date')
+          }
+        }
+      }
+    },
+    toDate: {
+      type:DataTypes.DATE,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        },
+        isDateGreaterThanToday(value){
+          if(new Date(value) <= new Date()){
+            throw new Error('To date must be above current date')
+          }
+        }
+      }
+    },
+    participant: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    reward: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    location: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    lat: {
+      type:DataTypes.FLOAT,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    lon: {
+      type:DataTypes.FLOAT,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    photoAct: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
+    status: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+        notNull:{
+          msg:'Please fill in all the blank'
+        },
+        notEmpty:{
+          msg:'Please fill in all the blank'
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Activity',
