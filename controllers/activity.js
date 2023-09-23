@@ -134,6 +134,8 @@ class ActivityController {
 
             await participant.update({ token: +  activity.reward })
             await activity.update({ status: "Done" })
+
+            res.status(200).json({ message: "Activity finished" })
         } catch (error) {
             next(error)
         }
