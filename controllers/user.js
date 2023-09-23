@@ -34,6 +34,8 @@ class UserController {
             const isValid = comparePassword(password, user.password)
             if (!isValid) throw ({ name: "EmailPasswordInvalid" })
 
+            delete user.password
+
             const token = signToken({ id: user.id, email: email })
 
             res.status(200).json({ access_token: token, dataUser: user })
@@ -48,7 +50,7 @@ class UserController {
 
             let user = await User.findByPk(id, {
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['createdAt', 'updatedAt', 'password']
                 }
             })
 
@@ -64,11 +66,11 @@ class UserController {
 
     static async editUser(req, res, next) {
         try {
-            const { name, password, email, profileImg, token, phoneNumber } = req.body
+            const { name, password, email, profileImg, phoneNumber } = req.body
             if (!name || !password || !email) throw({name:'cannotEmpty'})
             const { id } = req.params
 
-            await User.update({ name, email, profileImg, token, phoneNumber },{where:{id:id}})
+            await User.update({ name, email, profileImg, phoneNumber },{where:{id:id}})
 
             res.status(200).json({ message: `Your profile has been successfully updated.` })
         } catch (error) {

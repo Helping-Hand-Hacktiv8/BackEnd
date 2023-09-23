@@ -1,7 +1,9 @@
 function errorHandler(err, req, res, next) {
     let status = 500
     let message = "Internal Server Error"
+
     console.log('ERROR>>>',err)
+
     switch (err.name) {
         case "cannotEmpty":
             status = 400
@@ -33,10 +35,13 @@ function errorHandler(err, req, res, next) {
             status = 404
             message = "Data not found"
             break;
-        default:
-            status = 500
-            message="Internal Server Error"
-            break;
+        case "AlreadyJoin":
+            status = 400
+            message = "You alreaady joined this activity"
+        case "AlreadyClaimed":
+            status = 400
+            message = "You already claimed this reward"
+
     }
 
     console.log('STATUS >>>', status, message)
