@@ -46,7 +46,7 @@ describe('User routes test', ()=>{
                 email:'tesHalo@mail.com',
                 password:'testes'
             }
-            const response = await request(app).post('/users/register').send(body)
+            const response = await request(app).post('/register').send(body)
             expect(response.status).toBe(201)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message', 'Register account success')
@@ -57,7 +57,7 @@ describe('User routes test', ()=>{
                 name:'tesHalo',
                 password:'testes'
             }
-            const response = await request(app).post('/users/register').send(body)
+            const response = await request(app).post('/register').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Please fill in all the blank')
         })
@@ -67,7 +67,7 @@ describe('User routes test', ()=>{
                 name:'tesHalo',
                 email:'tesHalo@mail.com'
             }
-            const response = await request(app).post('/users/register').send(body)
+            const response = await request(app).post('/register').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Please fill in all the blank')
         })
@@ -77,7 +77,7 @@ describe('User routes test', ()=>{
                 email:'tesHalo@mail.com',
                 password:'testes'
             }
-            const response = await request(app).post('/users/register').send(body)
+            const response = await request(app).post('/register').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Please fill in all the blank')
         })
@@ -88,7 +88,7 @@ describe('User routes test', ()=>{
                 email:'tesUser@mail.com',
                 password:'testes'
             }
-            const response = await request(app).post('/users/register').send(body)
+            const response = await request(app).post('/register').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Email has been registered')
         })
@@ -99,7 +99,7 @@ describe('User routes test', ()=>{
                 email:'tesUser',
                 password:'testes'
             }
-            const response = await request(app).post('/users/register').send(body)
+            const response = await request(app).post('/register').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Email input is invalid')
         })
@@ -111,7 +111,7 @@ describe('User routes test', ()=>{
                 email: "tesUser@mail.com",
                 password: "testes"
             }
-            const response = await request(app).post('/users/login').send(body)
+            const response = await request(app).post('/login').send(body)
             expect(response.status).toBe(200)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('access_token', expect.any(String))
@@ -123,7 +123,7 @@ describe('User routes test', ()=>{
                 email:'tesUser',
                 password:'testes'
             }
-            const response = await request(app).post('/users/login').send(body)
+            const response = await request(app).post('/login').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Invalid email or password')
         })
@@ -133,7 +133,7 @@ describe('User routes test', ()=>{
                 email: "tesUser@mail.com",
                 password: "test"
             }
-            const response = await request(app).post('/users/login').send(body)
+            const response = await request(app).post('/login').send(body)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message', 'Invalid email or password')
 
