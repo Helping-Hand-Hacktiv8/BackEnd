@@ -9,9 +9,9 @@ const userActivityRouter = require('./userActivityRouter')
 const userRewardRouter = require('./userRewardRouter')
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.send('Connection successfull!')
-})
+// router.get('/', (req, res) => {
+//   res.send('Connection successfull!')
+// })
 router.post('/register', register)
 router.post('/login', login)
 
