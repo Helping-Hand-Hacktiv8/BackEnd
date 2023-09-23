@@ -35,7 +35,6 @@ class UserController {
             if (!isValid) throw ({ name: "EmailPasswordInvalid" })
 
             delete user.password
-
             const token = signToken({ id: user.id, email: email })
 
             res.status(200).json({ access_token: token, dataUser: user })

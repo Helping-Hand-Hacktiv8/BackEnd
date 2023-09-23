@@ -137,7 +137,6 @@ describe('Activities routes test', ()=>{
     describe('POST /activities - add new activities', ()=>{
         it('responds with 201 when success', async()=>{
             userToken = signToken(userData)
-           
             const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(body)
             expect(response.status).toBe(201)
             expect(response.body).toBeInstanceOf(Object)
