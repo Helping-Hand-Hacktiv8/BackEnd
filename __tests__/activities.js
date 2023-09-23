@@ -81,7 +81,7 @@ describe('Activities routes test', ()=>{
     describe('GET /activities/:id - get detail id ', ()=>{
         it('responds with 200 when success', async ()=>{
             userToken = signToken(userData)
-            const response = await request(app).get(`/users/activities/1`).set('access_token',userToken)
+            const response = await request(app).get(`/activities/1`).set('access_token',userToken)
             expect(response.status).toBe(200)
             expect(response.body).toBeInstanceOf(Object)
           
@@ -89,21 +89,21 @@ describe('Activities routes test', ()=>{
 
         it('401 failed get - no token used', async ()=>{
            
-            const response = await request(app).get(`/users/activities/1`)
+            const response = await request(app).get(`/activities/1`)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('401 failed get - invalid token', async ()=>{
             userToken="asal-asalan"
-            const response = await request(app).get(`/users/activities/1`).set('access_token',userToken)
+            const response = await request(app).get(`/activities/1`).set('access_token',userToken)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('404 failed get - item not found', async ()=>{
             userToken = signToken(userData)
-            const response = await request(app).get(`/users/activities/10000`).set('access_token',userToken)
+            const response = await request(app).get(`/activities/10000`).set('access_token',userToken)
             expect(response.status).toBe(404)
             expect(response.body).toHaveProperty('message','Data not found')
         })
@@ -114,21 +114,21 @@ describe('Activities routes test', ()=>{
     describe('GET /activities - fetch all activities', ()=>{
         it('responds with 200 when success', async()=>{
             userToken = signToken(userData)
-            const response = await request(app).get(`/users/activities`).set('access_token',userToken)
+            const response = await request(app).get(`/activities`).set('access_token',userToken)
             expect(response.status).toBe(200)
             expect(response.body).toBeInstanceOf(Array)
         })
 
         it('401 failed get - no token used', async ()=>{
            
-            const response = await request(app).get(`/users/activities`)
+            const response = await request(app).get(`/activities`)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('401 failed get - invalid token', async ()=>{
             userToken="asal-asalan"
-            const response = await request(app).get(`/users/activities`).set('access_token',userToken)
+            const response = await request(app).get(`/activities`).set('access_token',userToken)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
@@ -137,22 +137,21 @@ describe('Activities routes test', ()=>{
     describe('POST /activities - add new activities', ()=>{
         it('responds with 201 when success', async()=>{
             userToken = signToken(userData)
-           
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(body)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(body)
             expect(response.status).toBe(201)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message','New activity successfully created!')
         })
 
         it('401 failed post - no token used', async ()=>{
-            const response = await request(app).post(`/users/activities`).send(body)
+            const response = await request(app).post(`/activities`).send(body)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('401 failed post - invalid token', async ()=>{
             userToken="asal-asalan"
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(body)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(body)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
@@ -171,7 +170,7 @@ describe('Activities routes test', ()=>{
                 photoAct:"https://economicreview.id/wp-content/uploads/2022/02/petani.jpg",
                 status:'Active'
             }
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(bodyWrong)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(bodyWrong)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Please fill in all the blank')
         })
@@ -191,7 +190,7 @@ describe('Activities routes test', ()=>{
                 photoAct:"https://economicreview.id/wp-content/uploads/2022/02/petani.jpg",
                 status:'Active'
             }
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(bodyWrong)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(bodyWrong)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','From date must be above current date')
         })
@@ -211,7 +210,7 @@ describe('Activities routes test', ()=>{
                 photoAct:"https://economicreview.id/wp-content/uploads/2022/02/petani.jpg",
                 status:'Active'
             }
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(bodyWrong)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(bodyWrong)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','To date must be above current date')
         })
@@ -220,7 +219,7 @@ describe('Activities routes test', ()=>{
     describe('PUT /activities/:id - edit activity', ()=>{
         it('responds with 200 when success', async()=>{
             userToken = signToken(userData)
-            const response = await request(app).put(`/users/activities/1`).set('access_token',userToken).send(actOne)
+            const response = await request(app).put(`/activities/1`).set('access_token',userToken).send(actOne)
             expect(response.status).toBe(200)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message','Activity successfully updated')
@@ -228,21 +227,21 @@ describe('Activities routes test', ()=>{
 
         it('404 failed put - id not in database', async()=>{
             userToken = signToken(userData)
-            const response = await request(app).put(`/users/activities/10000`).set('access_token',userToken).send(actOne)
+            const response = await request(app).put(`/activities/10000`).set('access_token',userToken).send(actOne)
             expect(response.status).toBe(404)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message','Data not found')
         })
 
         it('401 failed put - no token used', async ()=>{
-            const response = await request(app).put(`/users/activities/1`).send(actOne)
+            const response = await request(app).put(`/activities/1`).send(actOne)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('401 failed put - invalid token', async ()=>{
             userToken="asal-asalan"
-            const response = await request(app).put(`/users/activities/1`).set('access_token',userToken).send(actOne)
+            const response = await request(app).put(`/activities/1`).set('access_token',userToken).send(actOne)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
@@ -261,7 +260,7 @@ describe('Activities routes test', ()=>{
                 lon: 0,
                 photoAct: "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
             }
-            const response = await request(app).put(`/users/activities/1`).set('access_token',userToken).send(bodyWrong)
+            const response = await request(app).put(`/activities/1`).set('access_token',userToken).send(bodyWrong)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','Please fill in all the blank')
         })
@@ -281,7 +280,7 @@ describe('Activities routes test', ()=>{
                 lon: 0,
                 photoAct: "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
             }
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(bodyWrong)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(bodyWrong)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','From date must be above current date')
         })
@@ -301,7 +300,7 @@ describe('Activities routes test', ()=>{
                 lon: 0,
                 photoAct: "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
             }
-            const response = await request(app).post(`/users/activities`).set('access_token',userToken).send(bodyWrong)
+            const response = await request(app).post(`/activities`).set('access_token',userToken).send(bodyWrong)
             expect(response.status).toBe(400)
             expect(response.body).toHaveProperty('message','To date must be above current date')
         })
@@ -310,28 +309,28 @@ describe('Activities routes test', ()=>{
     describe('DELETE /activities/:id - delete activities', ()=>{
         it('responds with 200 when success', async()=>{
             userToken = signToken(userData)
-            const response = await request(app).del(`/users/activities/1`).set('access_token',userToken)
+            const response = await request(app).del(`/activities/1`).set('access_token',userToken)
             expect(response.status).toBe(200)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message','Activity has been successfully deleted')
         })
 
         it('401 failed delete - no token used', async ()=>{
-            const response = await request(app).del(`/users/activities/1`)
+            const response = await request(app).del(`/activities/1`)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('401 failed delete - invalid token', async ()=>{
             userToken="asal-asalan"
-            const response = await request(app).del(`/users/activities/1`).set('access_token',userToken)
+            const response = await request(app).del(`/activities/1`).set('access_token',userToken)
             expect(response.status).toBe(401)
             expect(response.body).toHaveProperty('message','Authentication Error')
         })
 
         it('404 failed delete - id not in database', async()=>{
             userToken = signToken(userData)
-            const response = await request(app).del(`/users/activities/10000`).set('access_token',userToken)
+            const response = await request(app).del(`/activities/10000`).set('access_token',userToken)
             expect(response.status).toBe(404)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message','Data not found')

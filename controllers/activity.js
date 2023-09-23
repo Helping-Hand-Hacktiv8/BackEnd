@@ -102,9 +102,9 @@ class ActivityController {
             })
             if (!userActivity) throw ({ name: "Forbidden" })
 
-            await Activity.update({ status: "Canceld" }, { where: { id }})
+            await Activity.update({ status: "Cancelled" }, { where: { id }})
 
-            res.status(200).json({ message: "Activity has been canceled" })
+            res.status(200).json({ message: "Activity has been cancelled" })
         } catch (error) {
             next(error)
         }
@@ -112,30 +112,54 @@ class ActivityController {
 
     static async finishActivity(req, res, next) {
         try {
+            //id activity
             const { id } = req.params
+            //get arrayUser from author input
+            const { arrayUser} = req.body
+            
+            //sample arrayUser for postman testing, comment above and uncomment below
+            // const arrayUser =[{
+            //     UserId:1,
+            //     ActivityId:1,
+            //     role:'Participant'
+            // }]
 
             const activity = await Activity.findByPk(id)
             if (!activity) throw ({ name: "NotFound" })
 
-            const userActivity = await UserActivity.findAll({
-                where: { ActivityId: id, role: "Participant" }
-            })
-            if (!userActivity) throw ({ name: "NotFound" })
-            const idUser = userActivity.map(el => el.UserId)
+            //looping through array of admitted participants
+            for (let arr of arrayUser){
+                let checkUser = await User.findByPk(arr.UserId)
+                if (!checkUser) throw{name:'NotFound'}
+                await User.increment('token', {by: activity.reward, where:{id:arr.UserId}})
+            }
 
-            const participant = await User.findAll({
-                where: {
-                    id: idUser
-                },
-                attributes: {
-                    exlude: ['createdAt', 'updatedAt', 'password']
-                }
-            })
+            //decrement token from author
+            const totalToken = activity.reward * arrayUser.length
+            await User.decrement('token',{by: totalToken, where:{id:req.user.id}} )
 
-            await participant.update({ token: +  activity.reward })
             await activity.update({ status: "Done" })
 
             res.status(200).json({ message: "Activity finished" })
+
+
+            // const userActivity = await UserActivity.findAll({
+            //     where: { ActivityId: id, role: "Participant" }
+            // })
+            // if (!userActivity) throw ({ name: "NotFound" })
+            // const idUser = userActivity.map(el => el.UserId)
+
+            // const participant = await User.findAll({
+            //     where: {
+            //         id: idUser
+            //     },
+            //     attributes: {
+            //         exlude: ['createdAt', 'updatedAt', 'password']
+            //     }
+            // })
+
+            // await participant.update({ token: +  activity.reward })
+           
         } catch (error) {
             next(error)
         }

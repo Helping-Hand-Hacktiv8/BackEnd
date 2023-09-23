@@ -28,16 +28,19 @@ class UserController {
                 where: {
                     email
                 }
-            })
+            }
+            )
             if (!user) throw ({ name: "EmailPasswordInvalid" })
 
             const isValid = comparePassword(password, user.password)
             if (!isValid) throw ({ name: "EmailPasswordInvalid" })
-
-            delete user.password
-
             const token = signToken({ id: user.id, email: email })
-
+            user = await User.findByPk(user.id,{
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'password']
+                }
+            })
+            
             res.status(200).json({ access_token: token, dataUser: user })
         } catch (error) {
             next(error)

@@ -118,24 +118,30 @@
             "status": "Claimed"
         }
     ],
-    "UserActivites": [
+    "UserActivities": [
         {
             "id": 1,
             "UserId": 1,
             "ActivityId": 1,
-            "role": "Participant"
+            "role": "Author"
         },
         {
             "id": 2,
+            "UserId": 2,
+            "ActivityId": 1,
+            "role": "Participant"
+        },
+        {
+            "id": 3,
             "UserId": 1,
             "ActivityId": 2,
             "role": "Participant"
         },
         {
-            "id": 3,
+            "id": 4,
             "UserId": 2,
-            "ActivityId": 3,
-            "role": "Participant"
+            "ActivityId": 1,
+            "role": "Author"
         }
     ]
 }
