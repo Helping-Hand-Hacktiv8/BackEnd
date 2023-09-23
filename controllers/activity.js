@@ -1,4 +1,5 @@
-const { Activity, UserActivity } = require("../models")
+const { Activity, UserActivity, User } = require("../models")
+const { Op } = require("sequelize");
 
 class ActivityController {
     static async allActivity(req, res, next) {
@@ -17,11 +18,11 @@ class ActivityController {
 
     static async postActivity(req, res, next) {
         try {
-            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status } = req.body
+            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct } = req.body
             
-            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })
+            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct) throw ({ name: "cannotEmpty" })
 
-            const newActivity = await Activity.create({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status })
+            const newActivity = await Activity.create({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status: "Ongoing" })
             await UserActivity.create({
                 UserId: req.user.id,
                 ActivityId: newActivity.id,
@@ -104,6 +105,35 @@ class ActivityController {
             await Activity.update({ status: "Canceld" }, { where: { id }})
 
             res.status(200).json({ message: "Activity has been canceled" })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async finishActivity(req, res, next) {
+        try {
+            const { id } = req.params
+
+            const activity = await Activity.findByPk(id)
+            if (!activity) throw ({ name: "NotFound" })
+
+            const userActivity = await UserActivity.findAll({
+                where: { ActivityId: id, role: "Participant" }
+            })
+            if (!userActivity) throw ({ name: "NotFound" })
+            const idUser = userActivity.map(el => el.UserId)
+
+            const participant = await User.findAll({
+                where: {
+                    id: idUser
+                },
+                attributes: {
+                    exlude: ['createdAt', 'updatedAt', 'password']
+                }
+            })
+
+            await participant.update({ token: +  activity.reward })
+            await activity.update({ status: "Done" })
         } catch (error) {
             next(error)
         }
