@@ -84,6 +84,30 @@ class ActivityController {
             next(error)
         }
     }
+
+    static async cancelActivity(req, res, next) {
+        try {
+            const { id } = req.params
+
+            const activity = await Activity.findByPk(id)
+            if (!activity) throw ({ name: "NotFound" })
+
+            const userActivity = await UserActivity.findOne({
+                where: {
+                    ActivityId: id,
+                    UserId: req.user.id,
+                    role: "Author"
+                }
+            })
+            if (!userActivity) throw ({ name: "Forbidden" })
+
+            await Activity.update({ status: "Canceld" }, { where: { id }})
+
+            res.status(200).json({ message: "Activity has been canceled" })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = ActivityController
