@@ -21,7 +21,7 @@ class UserActivityController {
                         },
                     }
                 ],
-                // where: { UserId: req.user.id } // ini mau gmn? apakah dia bisa ngeliat kegiatan yg diambil sama org lain jg atau gmn?
+                where: { UserId: req.user.id }
             })
 
             if (userActivity.length == 0) {
@@ -56,6 +56,7 @@ class UserActivityController {
                         },
                     }
                 ],
+                where: { UserId: req.user.id }
             })
 
             if (!userActivity) throw ({ name: "NotFound" })

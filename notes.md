@@ -13,4 +13,5 @@ Selanjutnya:
 [x] bikin route dan controller untuk rewards (read) aja
 [x] bikin route dan controller untuk UserActivities (create, read, delete)
 [x] bikin route dan controller untuk UserRewards (create dan read)
+[ ] buat pengurangan untuk token user yg jadi author, penambahan untuk user yg ikut activity sebagai participant
 [ ] pagination dan filter dari lokasi untuk get all activities
