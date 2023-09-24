@@ -3,7 +3,7 @@
 List of Available Endpoints
 -`POST/login`
 -`POST/register`
--`POST/googleLogin`
+-`POST/google-login`
 -`GET/users/profile/:id`
 -`PUT/users/profile/:id`
 -`DELETE/users/profile/:id`
