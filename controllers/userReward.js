@@ -76,8 +76,11 @@ class UserRewardController {
                 }
             })
             if (isClaimed) throw ({ name: "AlreadyClaimed" })
+            
+            const getReward = await Reward.findByPk(RewardId)
 
             await UserReward.create({ UserId: req.user.id, RewardId, status: "Pending" })
+            await User.decrement('token',{by: getReward.price, where:{id:req.user.id}})
 
             res.status(201).json({ message: "Your reward successfully claimed" })
         } catch (error) {

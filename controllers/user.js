@@ -65,7 +65,7 @@ class UserController {
                 defaults: {
                     email: email,
                     password: String(Math.random()),
-                    username: name,
+                    name: name,
                 },
                 hooks: false
             })
@@ -75,7 +75,7 @@ class UserController {
                 email: user.email,
             })
 
-            res.status(200).json({ access_token: token, id: user.id, email: email })
+            res.status(200).json({ access_token: token, dataUser:user})
         } catch (error) {
             next(error)
         }
@@ -83,6 +83,9 @@ class UserController {
 
     static async getUserById(req, res, next) {
         try {
+            const id = +req.params.id
+            console.log('SINI>>',id, req.user.id)
+            if (id !== req.user.id) throw{name:'NotFound'}
             let user = await User.findByPk(req.user.id, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'password']
