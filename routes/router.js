@@ -1,7 +1,7 @@
 const express = require('express')
 const errorHandler = require('../middlewares/errorHandler')
 const userRouter = require('./userRouter')
-const { register, login } = require('../controllers/user')
+const { register, login, googleLogin } = require('../controllers/user')
 const authentication = require('../middlewares/authentication')
 const activityRouter = require('./activityRouter')
 const rewardRouter = require('./rewardRouter')
@@ -14,6 +14,7 @@ const router = express.Router()
 // })
 router.post('/register', register)
 router.post('/login', login)
+router.post('google-login', googleLogin)
 
 router.use(authentication)
 
