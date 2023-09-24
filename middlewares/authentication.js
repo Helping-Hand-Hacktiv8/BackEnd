@@ -12,7 +12,6 @@ async function authentication(req, res, next) {
         const user = await User.findByPk(verified.id)
         // console.log('user>>',user)
         if (!user) throw ({ name: "AuthenticationError" })
-
         req.user = {
             id: verified.id,
             email: verified.email

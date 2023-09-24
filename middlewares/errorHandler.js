@@ -37,7 +37,8 @@ function errorHandler(err, req, res, next) {
             break;
         case "AlreadyJoin":
             status = 400
-            message = "You alreaady joined this activity"
+            message = "You already joined this activity"
+            break;
         case "AlreadyClaimed":
             status = 400
             message = "You already claimed this reward"

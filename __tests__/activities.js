@@ -11,6 +11,11 @@ const userData = {
     email: "tesUser@mail.com"
 }
 
+const user2 = {
+    id: 2,
+    name: "tesUser2"
+}
+
 const body ={
     name:"Bertani", 
     description:"Bertani di dalam kota", 
@@ -60,12 +65,25 @@ beforeAll(async ()=>{
         return el
     })
 
+    const dataUseAct = data.UserActivities.map(el=>{
+        delete el.id
+        el.createdAt = new Date()
+        el.updatedAt = new Date()
+        return el
+    })
+
     await sequelize.queryInterface.bulkInsert('Users',dataUser)
     await sequelize.queryInterface.bulkInsert('Activities',dataAct)
+    await sequelize.queryInterface.bulkInsert('UserActivities',dataUseAct)
 
 })
 
 afterAll(async ()=>{
+    await sequelize.queryInterface.bulkDelete('UserActivities',null,{
+        truncate:true,
+        cascade:true,
+        restartIdentity:true
+    })
     await sequelize.queryInterface.bulkDelete('Activities',null,{
         truncate:true,
         cascade:true,
@@ -223,6 +241,14 @@ describe('Activities routes test', ()=>{
             expect(response.status).toBe(200)
             expect(response.body).toBeInstanceOf(Object)
             expect(response.body).toHaveProperty('message','Activity successfully updated')
+        })
+
+        it('403 failed put - status not author', async()=>{
+            userToken = signToken(user2)
+            const response = await request(app).put(`/activities/1`).set('access_token',userToken).send(actOne)
+            expect(response.status).toBe(403)
+            expect(response.body).toBeInstanceOf(Object)
+            expect(response.body).toHaveProperty('message','Access Forbidden')
         })
 
         it('404 failed put - id not in database', async()=>{
