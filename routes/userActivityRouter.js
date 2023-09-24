@@ -3,8 +3,8 @@ const { getUserActivity, userActivityDetail, postUserActivity, deleteUserActivit
 const userActivityRouter = express.Router()
 
 userActivityRouter.get('/', getUserActivity)
-userActivityRouter.get('/:id', userActivityDetail)
 userActivityRouter.post('/', postUserActivity)
+userActivityRouter.get('/:id', userActivityDetail)
 userActivityRouter.delete('/:id', deleteUserActivity)
 
 module.exports = userActivityRouter
