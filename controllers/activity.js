@@ -7,7 +7,15 @@ class ActivityController {
             const activity = await Activity.findAll({
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
-                }
+                },
+                include: [
+                    { 
+                        model: UserActivity,
+                        attributes: {
+                            exclude: ['createdAt', 'updatedAt']
+                        },
+                    }
+                ]
             })
 
             res.status(200).json(activity)
@@ -61,7 +69,15 @@ class ActivityController {
             const activity = await Activity.findByPk(id, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
-                }
+                },
+                include: [
+                    { 
+                        model: UserActivity,
+                        attributes: {
+                            exclude: ['createdAt', 'updatedAt']
+                        },
+                    }
+                ]
             })
             if (!activity) throw ({ name: "NotFound" })
 
