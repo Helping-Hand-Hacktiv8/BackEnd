@@ -8,7 +8,6 @@ class UserController {
     static async register(req, res, next) {
         try {
             const { name, password, email } = req.body
-
             if (!name || !password || !email) throw ({ name: "cannotEmpty" })
 
             await User.create({
