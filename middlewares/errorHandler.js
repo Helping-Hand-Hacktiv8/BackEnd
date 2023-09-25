@@ -47,6 +47,10 @@ function errorHandler(err, req, res, next) {
             status = 403
             message = "Access Forbidden"
             break;
+        case "PaymentFailed":
+            status = 400
+            message = "Your payment has been canceled"
+            break;
 
     }
 
