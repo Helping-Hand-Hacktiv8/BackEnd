@@ -74,7 +74,7 @@ class UserController {
                 email: user.email,
             })
 
-            res.status(200).json({ access_token: token, dataUser:user})
+            res.status(200).json({ access_token: token, dataUser: user })
         } catch (error) {
             next(error)
         }
@@ -83,8 +83,8 @@ class UserController {
     static async getUserById(req, res, next) {
         try {
             const id = +req.params.id
-            console.log('SINI>>',id, req.user.id)
-            if (id !== req.user.id) throw{name:'NotFound'}
+            console.log('SINI>>', id, req.user.id)
+            if (id !== req.user.id) throw { name: 'NotFound' }
             let user = await User.findByPk(req.user.id, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'password']
@@ -134,6 +134,7 @@ class UserController {
 
     static async generateMidtransToken(req, res, next) {
         try {
+            const { amount } = req.body
             const user = await User.findByPk(req.user.id)
 
             let snap = new midtransClient.Snap({
@@ -144,7 +145,7 @@ class UserController {
             let parameter = {
                 "transaction_details": {
                     "order_id": "TRANSACTION_" + Math.floor(10000000 + Math.random() * 9000000),
-                    "gross_amount": 249000
+                    "gross_amount": amount
                 },
                 "credit_card": {
                     "secure": true
@@ -156,7 +157,6 @@ class UserController {
             }
 
             const midtransToken = await snap.createTransaction(parameter)
-            await User.increment({ token: 10 }, { where: { id: req.user.id }})
 
             res.status(200).json(midtransToken)
         } catch (error) {
@@ -164,7 +164,52 @@ class UserController {
         }
     }
 
+    static midtransWebhook(req, res, next) {
+        const midtransClient = require('midtrans-client');
+        let status;
+        let message;
 
+        let apiClient = new midtransClient.Snap({
+            isProduction: false,
+            serverKey: process.env.MIDTRANS_SERVER_KEY,
+            clientKey: process.env.MIDTRANS_CLIENT_KEY
+        });
+
+        apiClient.transaction.notification(notificationJson)
+            .then((statusResponse) => {
+                let orderId = statusResponse.order_id;
+                let transactionStatus = statusResponse.transaction_status;
+                let fraudStatus = statusResponse.fraud_status;
+                let grossAmount = statusResponse.gross_amount
+
+                let totalToken = grossAmount / 20000
+
+                console.log(`Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}`);
+
+                if (transactionStatus == 'capture') {
+                    if (fraudStatus == 'accept') {
+                        status = 200
+                        message = "Payment accepted"
+                        User.increment({ token: totalToken }, { where: { id: req.user.id } })
+                    }
+                } else if (transactionStatus == 'settlement') {
+                    status = 200
+                    message = "Payment accepted"
+                    User.increment({ token: totalToken }, { where: { id: req.user.id } })
+                } else if (transactionStatus == 'cancel' || transactionStatus == 'deny' || transactionStatus == 'expire') {
+                    throw ({ name: "PaymentFailed" })
+                } else if (transactionStatus == 'pending') {
+                    status = 200
+                    message = "Payment Pending"
+                }
+            })
+            .then(() => {
+                res.status(status).json({ message })
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
 }
 
 module.exports = UserController

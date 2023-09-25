@@ -14,6 +14,22 @@ class RewardController {
             next(error)
         }
     }
+
+    static async getRewardDetail(req, res, next) {
+        try {
+            const { id } = req.body
+
+            const reward = await Reward.findByPk(id, {
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            })
+
+            res.status(200).json(reward)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 module.exports = RewardController
