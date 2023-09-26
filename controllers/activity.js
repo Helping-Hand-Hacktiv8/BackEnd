@@ -35,7 +35,7 @@ class ActivityController {
     static async postActivity(req, res, next) {
         try {
             const { name, description, fromDate, toDate, participant, reward, location, lat, lon } = req.body
-            const photoAct = 'activities/'+req.files.photoAct[0].filename
+            const photoAct = 'activities/'+req.file.filename
             
             if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct) throw ({ name: "cannotEmpty" })
             
@@ -58,7 +58,7 @@ class ActivityController {
         try {
             const { id } = req.params
             const { name, description, fromDate, toDate, participant, reward, location, lat, lon, status } = req.body
-            const photoAct = 'activities/'+req.files.photoAct[0].filename
+            const photoAct = 'activities/'+req.file.filename
 
 
             if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })

@@ -104,7 +104,9 @@ class UserController {
     static async editUser(req, res, next) {
         try {
             const { name, password, email, phoneNumber } = req.body
-            const profileImg = 'users/'+req.files.profileImg[0].filename
+            // console.log(req.body)
+            // console.log("FILES>>",req)
+            const profileImg = 'users/'+req.file.filename
 
             if (!name || !password || !email) throw ({ name: 'cannotEmpty' })
             const { id } = req.params
