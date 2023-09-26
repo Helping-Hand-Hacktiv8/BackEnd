@@ -54,7 +54,7 @@ class UserController {
             const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
             const ticket = await client.verifyIdToken({
                 idToken: req.headers.google_token,
-                audience: process.env.GOOGLE_CLIENT_ID,
+                audience: process.env.GOOGLE_CLIENT_ID, //value jadiin array
             });
             const { email, name } = ticket.getPayload();
 
@@ -145,7 +145,7 @@ class UserController {
 
             let parameter = {
                 "transaction_details": {
-                    "order_id": "TRANSACTION_" + Math.floor(10000000 + Math.random() * 9000000),
+                    "order_id": "TRANSACTION_" + Math.floor(10000000 + Math.random() * 9000000) + '_' + req.user.id,
                     "gross_amount": amount
                 },
                 "credit_card": {
@@ -165,51 +165,32 @@ class UserController {
         }
     }
 
-    static midtransWebhook(req, res, next) {
-        const midtransClient = require('midtrans-client');
-        let status;
-        let message;
+    static async midtransWebhook(req, res, next) {
+        const statusResponse = req.body
 
-        let apiClient = new midtransClient.Snap({
-            isProduction: false,
-            serverKey: process.env.MIDTRANS_SERVER_KEY,
-            clientKey: process.env.MIDTRANS_CLIENT_KEY
-        });
+        let orderId = statusResponse.order_id;
+        let transactionStatus = statusResponse.transaction_status;
+        let fraudStatus = statusResponse.fraud_status;
+        let grossAmount = statusResponse.gross_amount
+        let userId = orderId.split('_')[2]
 
-        apiClient.transaction.notification(notificationJson)
-            .then((statusResponse) => {
-                let orderId = statusResponse.order_id;
-                let transactionStatus = statusResponse.transaction_status;
-                let fraudStatus = statusResponse.fraud_status;
-                let grossAmount = statusResponse.gross_amount
+        let totalToken = +grossAmount / 20000
 
-                let totalToken = grossAmount / 20000
+        console.log(`Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}`);
 
-                console.log(`Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}`);
-
-                if (transactionStatus == 'capture') {
-                    if (fraudStatus == 'accept') {
-                        status = 200
-                        message = "Payment accepted"
-                        User.increment({ token: totalToken }, { where: { id: req.user.id } })
-                    }
-                } else if (transactionStatus == 'settlement') {
-                    status = 200
-                    message = "Payment accepted"
-                    User.increment({ token: totalToken }, { where: { id: req.user.id } })
-                } else if (transactionStatus == 'cancel' || transactionStatus == 'deny' || transactionStatus == 'expire') {
-                    throw ({ name: "PaymentFailed" })
-                } else if (transactionStatus == 'pending') {
-                    status = 200
-                    message = "Payment Pending"
-                }
-            })
-            .then(() => {
-                res.status(status).json({ message })
-            })
-            .catch(err => {
-                next(err)
-            })
+        if (transactionStatus == 'capture') {
+            if (fraudStatus == 'accept') {
+                User.increment({ token: totalToken }, { where: { id: userId } })
+                return res.status(200).json({ message: "Payment Success" })
+            }
+        } else if (transactionStatus == 'settlement') {
+            User.increment({ token: totalToken }, { where: { id: userId } })
+            return res.status(200).json({ message: "Payment Success" })
+        } else if (transactionStatus == 'cancel' || transactionStatus == 'deny' || transactionStatus == 'expire') {
+            return res.status(200).json({ message: "Payment Failed" })
+        } else if (transactionStatus == 'pending') {
+            return res.status(200).json({ message: "Payment Pending" })
+        }
     }
 }
 
