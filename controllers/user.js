@@ -8,7 +8,6 @@ class UserController {
     static async register(req, res, next) {
         try {
             const { name, password, email } = req.body
-
             if (!name || !password || !email) throw ({ name: "cannotEmpty" })
 
             await User.create({
@@ -84,7 +83,7 @@ class UserController {
     static async getUserById(req, res, next) {
         try {
             const id = +req.params.id
-            console.log('SINI>>', id, req.user.id)
+            // console.log('SINI>>', id, req.user.id)
             if (id !== req.user.id) throw { name: 'NotFound' }
             let user = await User.findByPk(req.user.id, {
                 attributes: {
@@ -104,7 +103,9 @@ class UserController {
 
     static async editUser(req, res, next) {
         try {
-            const { name, password, email, profileImg, phoneNumber } = req.body
+            const { name, password, email, phoneNumber } = req.body
+            const profileImg = 'users/'+req.files.profileImg[0].filename
+
             if (!name || !password || !email) throw ({ name: 'cannotEmpty' })
             const { id } = req.params
 

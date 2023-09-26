@@ -37,12 +37,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull:false
       },
-      lat: {
-        type: Sequelize.FLOAT,
-        allowNull:false
-      },
-      lon: {
-        type: Sequelize.FLOAT,
+      coordinate:{
+        type: Sequelize.GEOMETRY('POINT'),
         allowNull:false
       },
       photoAct: {

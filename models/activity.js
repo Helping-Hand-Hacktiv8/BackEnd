@@ -109,20 +109,8 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    lat: {
-      type:DataTypes.FLOAT,
-      allowNull:false,
-      validate:{
-        notNull:{
-          msg:'Please fill in all the blank'
-        },
-        notEmpty:{
-          msg:'Please fill in all the blank'
-        }
-      }
-    },
-    lon: {
-      type:DataTypes.FLOAT,
+    coordinate:{
+      type:DataTypes.GEOMETRY('POINT'),
       allowNull:false,
       validate:{
         notNull:{
