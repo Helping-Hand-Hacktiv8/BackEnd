@@ -39,7 +39,7 @@ class ActivityController {
             
             if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct) throw ({ name: "cannotEmpty" })
             
-            const coordinate = {type:'point',  coordinates: [lat, lon]}
+            const coordinate = {type:'point',  coordinates: [lon, lat]}
             const newActivity = await Activity.create({name, description, fromDate, toDate, participant, reward, location, coordinate, photoAct, status: "Ongoing" })
             await UserActivity.create({
                 UserId: req.user.id,
