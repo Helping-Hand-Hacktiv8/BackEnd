@@ -19,7 +19,9 @@ let storagePhotoActivity =  multer.diskStorage({
     }
 })
 
-const uploadProfileUser = multer({storage:storageProfileUser}).fields([{name:'profileImg',maxCount:1}])
-const uploadPhotoActivity= multer({storage:storagePhotoActivity}).fields([{name:'photoAct',maxCount:1}])
+// const uploadProfileUser = multer({storage:storageProfileUser}).fields([{name:'profileImg',maxCount:1}])
+const uploadProfileUser = multer({storage:storageProfileUser}).single('profileImg')
+// const uploadPhotoActivity= multer({storage:storagePhotoActivity}).fields([{name:'photoAct',maxCount:1}])
+const uploadPhotoActivity= multer({storage:storagePhotoActivity}).single('photoAct')
 
 module.exports = {uploadProfileUser,uploadPhotoActivity}

@@ -5,7 +5,7 @@
             "name": "tesUser",
             "email": "tesUser@mail.com",
             "password": "testes",
-            "profileImg": "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg",
+            "profileImg": "users/profile-1.jpg",
             "token": 5,
             "phoneNumber": "0876361836283"
         },
@@ -14,7 +14,7 @@
             "name": "tesUser2",
             "email": "tesUser2@mail.com",
             "password": "testes",
-            "profileImg": "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg",
+            "profileImg": "users/profile-2.jpg",
             "token": 2,
             "phoneNumber": "049304848494"
         },
@@ -23,7 +23,7 @@
             "name": "tesUser3",
             "email": "tesUser3@mail.com",
             "password": "testes",
-            "profileImg": "https://static.vecteezy.com/system/resources/thumbnails/002/387/693/small/user-profile-icon-free-vector.jpg",
+            "profileImg": "users/profile-3.jpg",
             "token": 15,
             "phoneNumber": "0832389173873"
         }
