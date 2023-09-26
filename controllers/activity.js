@@ -1,9 +1,16 @@
-const { Activity, UserActivity, User } = require("../models")
+const { Activity, UserActivity, User, sequelize } = require("../models")
 const { Op } = require("sequelize");
 
 class ActivityController {
     static async allActivity(req, res, next) {
         try {
+           
+            let {latitude, longitude} = req.body
+            // console.log("latlon", latitude , longitude)
+            if (latitude === 'all' || longitude === 'all' || !latitude || !longitude){
+                latitude = -6.2082279548177794
+                longitude = 106.84599613014322
+            }
             const activity = await Activity.findAll({
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
@@ -15,9 +22,10 @@ class ActivityController {
                             exclude: ['createdAt', 'updatedAt']
                         },
                     }
-                ]
+                ],
+                where: sequelize.where(sequelize.fn('ST_DWithin',sequelize.col('coordinate'),sequelize.fn('ST_MakePoint',longitude, latitude),0.05),true)
             })
-
+            // console.log("PANJANG>>>",activity.length)
             res.status(200).json(activity)
         } catch (error) {
             next(error)
@@ -26,11 +34,13 @@ class ActivityController {
 
     static async postActivity(req, res, next) {
         try {
-            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct } = req.body
+            const { name, description, fromDate, toDate, participant, reward, location, lat, lon } = req.body
+            const photoAct = 'activities/'+req.files.photoAct[0].filename
             
             if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct) throw ({ name: "cannotEmpty" })
-
-            const newActivity = await Activity.create({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status: "Ongoing" })
+            
+            const coordinate = {type:'point',  coordinates: [lat, lon]}
+            const newActivity = await Activity.create({name, description, fromDate, toDate, participant, reward, location, coordinate, photoAct, status: "Ongoing" })
             await UserActivity.create({
                 UserId: req.user.id,
                 ActivityId: newActivity.id,
@@ -47,8 +57,10 @@ class ActivityController {
     static async updateActivity(req, res, next) {
         try {
             const { id } = req.params
-            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status } = req.body
-            
+            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, status } = req.body
+            const photoAct = 'activities/'+req.files.photoAct[0].filename
+
+
             if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })
 
             const activity = await Activity.findByPk(id)

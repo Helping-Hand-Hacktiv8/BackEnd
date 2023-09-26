@@ -19,6 +19,9 @@ module.exports = {
     let dataActivity = data.Activities
     dataActivity.forEach(el => {
       delete el.id
+      el.coordinate = Sequelize.fn('ST_GeomFromText',`POINT(${el.lon} ${el.lat})`)
+      delete el.lat
+      delete el.lon
       el.createdAt = new Date()
       el.updatedAt = new Date()
     })
@@ -40,7 +43,7 @@ module.exports = {
     })
     await queryInterface.bulkInsert('UserRewards', dataUserReward)
 
-    let dataUserActivity = data.UserActivites
+    let dataUserActivity = data.UserActivities
     dataUserActivity.forEach(el => {
       delete el.id
       el.createdAt = new Date()

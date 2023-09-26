@@ -37,10 +37,10 @@
             "toDate": "2023-12-25",
             "participant": 2,
             "reward": 5,
-            "location": "none",
-            "lat": 0,
-            "status": "Pending",
-            "lon": 0,
+            "location": "Menteng",
+            "lat": -6.191968672637788,
+            "status": "Ongoing",
+            "lon": 106.82897273778251,
             "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
         },
         {
@@ -51,10 +51,10 @@
             "toDate": "2023-12-25",
             "participant": 2,
             "reward": 100,
-            "location": "none",
-            "lat": 0,
+            "location": "Menteng",
+            "lat": -6.190390138878264,
             "status": "Done",
-            "lon": 0,
+            "lon": 106.82528198375881,
             "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
         },
         {
@@ -65,10 +65,10 @@
             "toDate": "2023-12-25",
             "participant": 2,
             "reward": 50,
-            "location": "none",
-            "lat": 0,
-            "status": "Pending",
-            "lon": 0,
+            "location": "Kemang",
+            "lat": -6.278209391366679,
+            "status": "Ongoing",
+            "lon": 106.80369735257193,
             "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
         }
     ],

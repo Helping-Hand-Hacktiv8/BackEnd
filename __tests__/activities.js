@@ -3,6 +3,7 @@ const app = require('../app')
 const { sequelize } = require('../models')
 const { signToken } = require('../helpers/jwt')
 const { hashPassword } = require('../helpers/bcrypt')
+const { Sequelize } = require('sequelize')
 
 
 
@@ -24,8 +25,7 @@ const body ={
     participant:5, 
     reward:2, 
     location:"Tebet, Jakarta Pusat", 
-    lat:-6.225840, 
-    lon:106.856810, 
+    coordinate: Sequelize.fn('ST_GeomFromText',`POINT(-6.225840 106.856810)`),
     photoAct:"https://economicreview.id/wp-content/uploads/2022/02/petani.jpg",
     status:'Active'
 }
@@ -60,6 +60,9 @@ beforeAll(async ()=>{
    
     const dataAct = data.Activities.map(el=>{
         delete el.id
+        el.coordinate = Sequelize.fn('ST_GeomFromText',`POINT(${el.lon},${el.lat})`)
+        delete el.lat
+        delete el.lon
         el.createdAt = new Date()
         el.updatedAt = new Date()
         return el
