@@ -19,7 +19,7 @@ module.exports = {
     let dataActivity = data.Activities
     dataActivity.forEach(el => {
       delete el.id
-      el.coordinate = Sequelize.fn('ST_GeomFromText',`POINT(${el.lon} ${el.lat})`,0)
+      el.coordinate = Sequelize.fn('ST_GeomFromText',`POINT(${el.lon} ${el.lat})`,4326)
       delete el.lat
       delete el.lon
       el.createdAt = new Date()

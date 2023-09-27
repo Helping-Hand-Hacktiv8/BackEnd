@@ -38,7 +38,7 @@ module.exports = {
         allowNull:false
       },
       coordinate:{
-        type: Sequelize.GEOMETRY('POINT'),
+        type: Sequelize.GEOMETRY('POINT',4326),
         allowNull:false
       },
       photoAct: {

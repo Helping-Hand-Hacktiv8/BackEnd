@@ -38,6 +38,9 @@ beforeAll(async ()=>{
    
     const dataAct = data.Activities.map(el=>{
         delete el.id
+        el.coordinate = sequelize.fn('ST_GeomFromText',`POINT(${el.lon} ${el.lat})`,4326)
+        delete el.lat
+        delete el.lon
         el.createdAt = new Date()
         el.updatedAt = new Date()
         return el
