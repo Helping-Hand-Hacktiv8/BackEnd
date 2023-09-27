@@ -6,7 +6,7 @@ class ActivityController {
         try {
            
             let {latitude, longitude} = req.body
-            // console.log("latlon", latitude , longitude)
+            console.log("latlon", latitude , longitude)
             if (latitude === 'all' || longitude === 'all' || !latitude || !longitude){
                 latitude = -6.2082279548177794
                 longitude = 106.84599613014322
@@ -34,6 +34,8 @@ class ActivityController {
 
     static async postActivity(req, res, next) {
         try {
+            console.log(req.body)
+            console.log(req.file)
             const { name, description, fromDate, toDate, participant, reward, location, lat, lon } = req.body
             const photoAct = 'activities/'+req.file.filename
             
