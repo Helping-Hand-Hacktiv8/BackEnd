@@ -85,7 +85,7 @@ class UserController {
             const id = +req.params.id
             let user = await User.findByPk(id, {
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'password']
+          git          exclude: ['createdAt', 'updatedAt', 'password']
                 }
             })
 

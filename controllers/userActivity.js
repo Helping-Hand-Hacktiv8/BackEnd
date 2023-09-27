@@ -92,6 +92,7 @@ class UserActivityController {
     static async deleteUserActivity(req, res, next) {
         try {
             const { id } = req.params
+            console.log("ID>>>",id)
 
             const isUserActivity = await UserActivity.findByPk(id)
             if (!isUserActivity) throw ({ name: "NotFound" })

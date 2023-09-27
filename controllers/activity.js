@@ -23,7 +23,7 @@ class ActivityController {
                         },
                     }
                 ],
-                where: sequelize.where(sequelize.fn('ST_DWithin',sequelize.col('coordinate'),sequelize.fn('ST_MakePoint',longitude, latitude),0.05),true)
+                where: sequelize.where(sequelize.fn('ST_DWithin',sequelize.col('coordinate'),sequelize.fn('ST_SetSRID',sequelize.fn('ST_MakePoint',longitude, latitude),0),0.05),true)
             })
             // console.log("PANJANG>>>",activity.length)
             res.status(200).json(activity)
@@ -58,17 +58,19 @@ class ActivityController {
 
     static async updateActivity(req, res, next) {
         try {
+            console.log(req.body)
+            console.log(req.file)
             const { id } = req.params
-            const { name, description, fromDate, toDate, participant, reward, location, lat, lon, status } = req.body
+            const { name, description, fromDate, toDate, participant, reward, location, lat, lon } = req.body
             const photoAct = 'activities/'+req.file.filename
 
-
-            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct || !status) throw ({ name: "cannotEmpty" })
-
+            
+            if (!name || !description || !fromDate || !toDate || !participant || !reward || !location || !photoAct ) throw ({ name: "cannotEmpty" })
+            const coordinate = {type:'point',  coordinates: [lon, lat]}
             const activity = await Activity.findByPk(id)
             if (!activity) throw ({ name: "NotFound" })
 
-            await Activity.update({name, description, fromDate, toDate, participant, reward, location, lat, lon, photoAct, status},{where:{id:id}})
+            await Activity.update({name, description, fromDate, toDate, participant, reward, location, coordinate, photoAct},{where:{id:id}})
 
             res.status(200).json({ message: "Activity successfully updated" })
         } catch (error) {

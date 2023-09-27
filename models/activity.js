@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     coordinate:{
-      type:DataTypes.GEOMETRY('POINT'),
+      type:DataTypes.GEOMETRY('POINT',0),
       allowNull:false,
       validate:{
         notNull:{
