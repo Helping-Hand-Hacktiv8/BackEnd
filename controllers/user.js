@@ -104,7 +104,7 @@ class UserController {
             const { name, password, email, phoneNumber } = req.body
             // console.log(req.body)
             // console.log("FILES>>",req)
-            const profileImg = 'users/'+req.file.filename
+            const profileImg = 'users/' + req.file.filename
 
             if (!name || !password || !email) throw ({ name: 'cannotEmpty' })
             const { id } = req.params
