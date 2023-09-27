@@ -83,9 +83,7 @@ class UserController {
     static async getUserById(req, res, next) {
         try {
             const id = +req.params.id
-            // console.log('SINI>>', id, req.user.id)
-            if (id !== req.user.id) throw { name: 'NotFound' }
-            let user = await User.findByPk(req.user.id, {
+            let user = await User.findByPk(id, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'password']
                 }
