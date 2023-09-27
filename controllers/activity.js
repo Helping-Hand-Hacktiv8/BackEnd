@@ -23,7 +23,7 @@ class ActivityController {
                         },
                     }
                 ],
-                where: sequelize.where(sequelize.fn('ST_DWithin',sequelize.col('coordinate'),sequelize.fn('ST_SetSRID',sequelize.fn('ST_MakePoint',longitude, latitude),0),0.05),true)
+                where: sequelize.where(sequelize.fn('ST_DWithin',sequelize.col('coordinate'),sequelize.fn('ST_SetSRID',sequelize.fn('ST_MakePoint',longitude, latitude),4326),0.05),true)
             })
             // console.log("PANJANG>>>",activity.length)
             res.status(200).json(activity)
@@ -121,10 +121,11 @@ class ActivityController {
     static async cancelActivity(req, res, next) {
         try {
             const { id } = req.params
+            console.log("ID CANCEL",id)
 
             const activity = await Activity.findByPk(id)
             if (!activity) throw ({ name: "NotFound" })
-
+            console.log("ACTIVITY", activity)
             const userActivity = await UserActivity.findOne({
                 where: {
                     ActivityId: id,
@@ -132,6 +133,7 @@ class ActivityController {
                     role: "Author"
                 }
             })
+            console.log("USER ACTIVITY", userActivity)
             if (!userActivity) throw ({ name: "Forbidden" })
 
             await Activity.update({ status: "Cancelled" }, { where: { id }})
@@ -148,7 +150,7 @@ class ActivityController {
             const { id } = req.params
             //get arrayUser from author input
             const { arrayUser} = req.body
-            
+            console.log("ARRAY",arrayUser)
             //sample arrayUser for postman testing, comment above and uncomment below
             // const arrayUser =[{
             //     UserId:1,

@@ -95,6 +95,7 @@ class UserActivityController {
             console.log("ID>>>",id)
 
             const isUserActivity = await UserActivity.findByPk(id)
+            console.log('DELETE',isUserActivity)
             if (!isUserActivity) throw ({ name: "NotFound" })
 
             await UserActivity.destroy({ where: { id }})
