@@ -128,18 +128,30 @@
         {
             "id": 2,
             "UserId": 2,
-            "ActivityId": 1,
-            "role": "Participant"
-        },
-        {
-            "id": 3,
-            "UserId": 1,
             "ActivityId": 2,
             "role": "Author"
         },
         {
+            "id": 3,
+            "UserId": 3,
+            "ActivityId": 3,
+            "role": "Author"
+        },
+        {
             "id": 4,
+            "UserId": 2,
+            "ActivityId": 1,
+            "role": "Participant"
+        },
+        {
+            "id": 5,
             "UserId": 1,
+            "ActivityId": 2,
+            "role": "Participant"
+        },
+        {
+            "id": 6,
+            "UserId": 3,
             "ActivityId": 1,
             "role": "Participant"
         }

@@ -17,13 +17,14 @@ class RewardController {
 
     static async getRewardDetail(req, res, next) {
         try {
-            const { id } = req.body
+            const { id } = req.params
 
             const reward = await Reward.findByPk(id, {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
             })
+            if (!reward) throw{name:'NotFound'}
 
             res.status(200).json(reward)
         } catch (error) {

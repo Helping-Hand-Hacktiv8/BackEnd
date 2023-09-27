@@ -48,44 +48,12 @@ class UserController {
         }
     }
 
-    static async googleLogin(req, res, next) {
-        try {
-            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-            const ticket = await client.verifyIdToken({
-                idToken: req.headers.google_token,
-                audience: process.env.GOOGLE_CLIENT_ID, //value jadiin array
-            });
-            const { email, name } = ticket.getPayload();
-
-            let [user, created] = await User.findOrCreate({
-                where: {
-                    email: email
-                },
-                defaults: {
-                    email: email,
-                    password: String(Math.random()),
-                    name: name,
-                },
-                hooks: false
-            })
-
-            const token = signToken({
-                id: user.id,
-                email: user.email,
-            })
-
-            res.status(200).json({ access_token: token, dataUser: user })
-        } catch (error) {
-            next(error)
-        }
-    }
-
     static async getUserById(req, res, next) {
         try {
             const id = +req.params.id
             let user = await User.findByPk(id, {
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'password']
+                       exclude: ['createdAt', 'updatedAt', 'password']
                 }
             })
 
@@ -102,11 +70,15 @@ class UserController {
     static async editUser(req, res, next) {
         try {
             const { name, password, email, phoneNumber } = req.body
-            // console.log(req.body)
-            // console.log("FILES>>",req)
-            const profileImg = 'users/' + req.file.filename
+            let profileImg
 
-            if (!name || !password || !email) throw ({ name: 'cannotEmpty' })
+            if (!req.file){
+                profileImg = ''
+            } else{
+                profileImg = 'users/'+req.file.filename
+            }
+
+            if (!name || !email) throw ({ name: 'cannotEmpty' })
             const { id } = req.params
 
             await User.update({ name, email, profileImg, phoneNumber }, { where: { id: id } })
