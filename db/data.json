@@ -139,9 +139,9 @@
         },
         {
             "id": 4,
-            "UserId": 2,
+            "UserId": 1,
             "ActivityId": 1,
-            "role": "Author"
+            "role": "Participant"
         }
     ]
 }
