@@ -1,0 +1,159 @@
+{
+    "Users": [
+        {
+            "id": 1,
+            "name": "tesUser",
+            "email": "tesUser@mail.com",
+            "password": "testes",
+            "profileImg": "users/profile-1.jpg",
+            "token": 5,
+            "phoneNumber": "0876361836283"
+        },
+        {
+            "id": 2,
+            "name": "tesUser2",
+            "email": "tesUser2@mail.com",
+            "password": "testes",
+            "profileImg": "users/profile-2.jpg",
+            "token": 2,
+            "phoneNumber": "049304848494"
+        },
+        {
+            "id": 3,
+            "name": "tesUser3",
+            "email": "tesUser3@mail.com",
+            "password": "testes",
+            "profileImg": "users/profile-3.jpg",
+            "token": 15,
+            "phoneNumber": "0832389173873"
+        }
+    ],
+    "Activities": [
+        {
+            "id": 1,
+            "name": "Mencuri hatinya",
+            "description": "biasalah cinta itu buta",
+            "fromDate": "2023-10-29",
+            "toDate": "2023-12-25",
+            "participant": 2,
+            "reward": 5,
+            "location": "Menteng",
+            "lat": -6.191968672637788,
+            "status": "Ongoing",
+            "lon": 106.82897273778251,
+            "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Ngerampok bank",
+            "description": "gimana pokoknya caranya biar cepet kaya",
+            "fromDate": "2023-10-29",
+            "toDate": "2023-12-25",
+            "participant": 2,
+            "reward": 100,
+            "location": "Menteng",
+            "lat": -6.190390138878264,
+            "status": "Done",
+            "lon": 106.82528198375881,
+            "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Diem aja di rumah, biar jalan ga rame",
+            "description": "aku mau keluar, jadi tolong kalian diem di rumah dan jangan bikin macet",
+            "fromDate": "2023-10-29",
+            "toDate": "2023-12-25",
+            "participant": 2,
+            "reward": 50,
+            "location": "Kemang",
+            "lat": -6.278209391366679,
+            "status": "Ongoing",
+            "lon": 106.80369735257193,
+            "photoAct": "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg"
+        }
+    ],
+    "Rewards": [
+        {
+            "id": 1,
+            "name": "Voucher Oyo Rp250,000",
+            "description": "bisa nginep di oyo loh",
+            "companyName": "Oyo",
+            "price": 100,
+            "photoProduct": "https://images.oyoroomscdn.com/uploads/hotel_image/42310/ymwckvjvsdcg.jpg"
+        },
+        {
+            "id": 2,
+            "name": "Timezone Rp300,000",
+            "description": "enak toh main di timezone",
+            "companyName": "Timezone",
+            "price": 150,
+            "photoProduct": "https://disk.mediaindonesia.com/thumbs/1800x1200/news/2022/11/01b06b82b8213e5f368cba09c578bce6.jpg"
+        },
+        {
+            "id": 3,
+            "name": "Travel to Bali 3 days",
+            "description": "kapan lagi bisa pergi ke bali gratis",
+            "companyName": "HH Travel",
+            "price": 500,
+            "photoProduct": "https://pancar.id/storage/articles/pulau-dewata-bali-dinobatkan-jadi-destinasi-populer-kedua-di-dunia_1674637540.jpg"
+        }
+    ],
+    "UserRewards": [
+        {
+            "id": 1,
+            "UserId": 1,
+            "RewardId": 1,
+            "status": "Claimed"
+        },
+        {
+            "id": 2,
+            "UserId": 1,
+            "RewardId": 2,
+            "status": "Unclaimed"
+        },
+        {
+            "id": 3,
+            "UserId": 2,
+            "RewardId": 1,
+            "status": "Claimed"
+        }
+    ],
+    "UserActivities": [
+        {
+            "id": 1,
+            "UserId": 1,
+            "ActivityId": 1,
+            "role": "Author"
+        },
+        {
+            "id": 2,
+            "UserId": 2,
+            "ActivityId": 2,
+            "role": "Author"
+        },
+        {
+            "id": 3,
+            "UserId": 3,
+            "ActivityId": 3,
+            "role": "Author"
+        },
+        {
+            "id": 4,
+            "UserId": 2,
+            "ActivityId": 1,
+            "role": "Participant"
+        },
+        {
+            "id": 5,
+            "UserId": 1,
+            "ActivityId": 2,
+            "role": "Participant"
+        },
+        {
+            "id": 6,
+            "UserId": 3,
+            "ActivityId": 1,
+            "role": "Participant"
+        }
+    ]
+}
