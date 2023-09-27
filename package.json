@@ -8,6 +8,7 @@
     "testCov": "npx jest --forceExit --detectOpenHandles --runInBand --coverage",
     "start": "nodemon bin/www",
     "refresh": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all && nodemon bin/www"
+
   },
   "keywords": [],
   "author": "",
